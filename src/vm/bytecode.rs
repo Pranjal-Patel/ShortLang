@@ -2,27 +2,36 @@
 #[derive(Clone, Copy, Debug)]
 pub enum Bytecode {
     // Completely shutdowns the program.
-    HALT = 0x1,
+    HALT,
+
     // Constant related operations
-    LOAD_CONST = 0x2,
+    LOAD_CONST,
 
     // Variables
-    REPLACE = 0x3,
+    REPLACE,
+    GET_VAR,
+    MAKE_VAR,
 
     // Operations
-    ADD = 0x5,
-    SUB = 0x6,
-    MUL = 0x7,
-    DIV = 0x8,
-    EQ = 0x9,
-    NEQ = 0xA,
-    GT = 0xB,
-    LT = 0xC,
-    GE = 0xD,
-    LE = 0xE,
+    ADD,
+    SUB,
+    MUL,
+    DIV,
+    EQ,
+    NEQ,
+    GT,
+    LT,
+    GE,
+    LE,
+
     // Some built in functions
-    PRINT = 0xF,
+    PRINT,
+    TYPEOF,
+
+    FN_START,
+    FN_END,
+    FN_CALL,
 }
 
 #[derive(Clone, Debug)]
-pub struct Instr(pub Bytecode, pub Vec<u32>);
+pub struct Instr(pub Bytecode, pub Vec<super::value::Value>);

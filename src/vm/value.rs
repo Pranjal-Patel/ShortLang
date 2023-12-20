@@ -1,6 +1,6 @@
 use std::ops::Div;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Value {
     Int(i64),
     Float(f64),
@@ -9,6 +9,34 @@ pub enum Value {
 }
 
 impl Value {
+    pub fn as_int(&self) -> i64 {
+        match self {
+            &Self::Int(i) => i,
+            _ => panic!(),
+        }
+    }
+
+    pub fn as_float(&self) -> f64 {
+        match self {
+            &Self::Float(f) => f,
+            _ => panic!(),
+        }
+    }
+
+    pub fn as_bool(&self) -> bool {
+        match self {
+            &Self::Bool(i) => i,
+            _ => panic!(),
+        }
+    }
+
+    pub fn as_str(&self) -> &str {
+        match self {
+            Self::String(i) => i,
+            _ => panic!(),
+        }
+    }
+
     pub fn binary_add(&self, rhs: &Value) -> Option<Value> {
         match (self, rhs) {
             (Value::Int(lhs), Value::Int(rhs)) => Some(Value::Int(lhs + rhs)),
@@ -77,5 +105,53 @@ impl Value {
         match self {
             _ => None,
         }
+    }
+}
+
+impl From<Value> for i64 {
+    fn from(value: Value) -> Self {
+        value.as_int()
+    }
+}
+
+impl From<Value> for f64 {
+    fn from(value: Value) -> Self {
+        value.as_float()
+    }
+}
+
+impl From<Value> for bool {
+    fn from(value: Value) -> Self {
+        value.as_bool()
+    }
+}
+
+impl From<Value> for String {
+    fn from(value: Value) -> Self {
+        value.as_str().to_owned()
+    }
+}
+
+impl From<String> for Value {
+    fn from(value: String) -> Self {
+        Value::String(value)
+    }
+}
+
+impl<'a> From<&'a str> for Value {
+    fn from(value: &'a str) -> Self {
+        Value::String(value.to_owned())
+    }
+}
+
+impl From<u32> for Value {
+    fn from(value: u32) -> Self {
+        Self::Int(value as _)
+    }
+}
+
+impl From<&u32> for Value {
+    fn from(value: &u32) -> Self {
+        Self::Int(*value as _)
     }
 }

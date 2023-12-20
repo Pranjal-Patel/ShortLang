@@ -39,7 +39,9 @@ fn main() {
     match parser().parse(token_stream).into_result() {
         Ok(stuff) => {
             analyzer::Analyzer::new(&src, stuff.clone()).analyze();
-            let mut vm = VM::new(stuff);
+            let mut vm = VM::new(&src, stuff);
+
+            println!("Running...");
             vm.compile();
         }
 
